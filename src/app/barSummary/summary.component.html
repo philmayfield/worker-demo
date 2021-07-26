@@ -1,0 +1,7 @@
+<h1 i18n="Bye world@@byeWorld">Goodbye world!</h1>
+
+<ng-container *ngIf="bar$ | async as foo">
+  <p>Total: {{foo.total}}</p>
+  <p>Foos: {{foo.foo}}</p>
+  <p>Bars: {{foo.bar}}</p>
+</ng-container>

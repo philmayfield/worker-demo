@@ -4,15 +4,27 @@
   "newProjectRoot": "projects",
   "projects": {
     "worker-demo": {
+      "root": "",
+      "sourceRoot": "src",
       "projectType": "application",
+      "prefix": "app",
+      "i18n": {
+        "sourceLocale": {
+          "code": "en-US",
+          "baseHref": ""
+        },
+        "locales": {
+          "pt": {
+            "translation": "src/locale/messages.pt.xlf",
+            "baseHref": ""
+          }
+        }
+      },
       "schematics": {
         "@schematics/angular:application": {
           "strict": true
         }
       },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -29,16 +41,18 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json",
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
@@ -51,7 +65,13 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             },
             "development": {
               "buildOptimizer": false,
@@ -66,15 +86,20 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "worker-demo:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "worker-demo:build:production"
             },
             "development": {
               "browserTarget": "worker-demo:build:development"
+            },
+            "pt": {
+              "browserTarget": "worker-demo:build:pt"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -96,7 +121,8 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }
